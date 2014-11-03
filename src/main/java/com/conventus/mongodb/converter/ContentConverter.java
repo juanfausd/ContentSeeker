@@ -30,7 +30,7 @@ public class ContentConverter implements IObjectConverter<Content> {
         return builder.get();
     }
     
-    public Content toContent(DBObject doc) {
+    public Content toObject(DBObject doc) {
         Content content = new Content();
         content.setName((String) doc.get("name"));
         content.setSource((String) doc.get("source"));

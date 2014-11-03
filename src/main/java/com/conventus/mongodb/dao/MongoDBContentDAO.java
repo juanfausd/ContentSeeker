@@ -8,6 +8,7 @@ package com.conventus.mongodb.dao;
 
 import com.conventus.entity.Content;
 import com.conventus.mongodb.converter.ContentConverter;
+import com.conventus.mongodb.infrastructure.MongoResource;
 import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
@@ -23,8 +24,9 @@ import org.bson.types.ObjectId;
  */
 public class MongoDBContentDAO extends MongoDBGenericDAO<Content> {
     
-    public MongoDBContentDAO(MongoClient mongo) {
+    public MongoDBContentDAO() {
         super(new ContentConverter());
-        this.col = mongo.getDB("contentseeker").getCollection("content");
+        MongoResource resource = MongoResource.INSTANCE;
+        this.col = resource.getClient().getDB("contentseeker").getCollection("content");
     }
 }
