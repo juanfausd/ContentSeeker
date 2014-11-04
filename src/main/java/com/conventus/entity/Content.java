@@ -22,6 +22,8 @@ public class Content implements IEntity {
     
     private byte[] file;
     
+    private String externalId;
+    
     public String getId() {
         return id;
     }
@@ -52,5 +54,13 @@ public class Content implements IEntity {
     
     public void setFile(byte[] file) {
         this.file = file;
+    }
+    
+    public String getExternalId() {
+        return externalId;
+    }
+    
+    public void setExternalId(String externalId) {
+        this.externalId = externalId;
     }
 }
