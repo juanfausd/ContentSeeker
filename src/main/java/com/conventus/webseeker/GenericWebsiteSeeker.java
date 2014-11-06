@@ -23,13 +23,14 @@ public abstract class GenericWebsiteSeeker {
     
     protected Integer minPage;
     protected Integer maxPage;
+    protected String sourceName;
     protected String searchPageUrlTemplate;
     protected String contentPageUrlTemplate;
     
     public abstract String getSearchPageUrl(String identifier);
     public abstract String getContentPageUrl(String externalId);
     public abstract String getContentPageUrlPattern();
-    public abstract Content getContentFromUrl(String url);
+    public abstract Content getContentFromHtml(String url, String html);
     
     public List<Content> searchContent() throws Exception
     {
@@ -42,15 +43,13 @@ public abstract class GenericWebsiteSeeker {
             {
                 String html = HttpHelper.sendGet(this.getSearchPageUrl(i.toString()));
                 Document doc = Jsoup.parse(html);
-                Elements links = doc.select("a[href]");
+                Elements links = doc.select(String.format("a[href*={0}]", contentPageUrlPattern));
                 
-                for (Element link : links) {
-                    
+                for (Element link : links)
+                {
                     String href = link.attr("href");
-                    if(href.contains(contentPageUrlPattern))
-                    {
-                        result.add(this.getContentFromUrl(href));
-                    }
+                    String contentHtml = HttpHelper.sendGet(href);
+                    result.add(this.getContentFromHtml(href, contentHtml));
                 }
             }
             catch(Exception ex)

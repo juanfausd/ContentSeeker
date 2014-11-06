@@ -7,6 +7,7 @@
 package com.conventus.webseeker;
 
 import com.conventus.entity.Content;
+import com.conventus.entity.Film;
 
 /**
  *
@@ -17,8 +18,9 @@ public class YifyTorrentsSeeker extends GenericWebsiteSeeker {
     public YifyTorrentsSeeker() {
         this.minPage = 1;
         this.maxPage = 239;
-        this.searchPageUrlTemplate = "https://yts.re/browse-movie/0/All/All/0/latest/{page}";
-        this.contentPageUrlTemplate = "https://yts.re/movie/{external-id}";
+        this.sourceName = "yify-torrent.org";
+        this.searchPageUrlTemplate = "http://www.yify-torrent.org/latest-{page}.html";
+        this.contentPageUrlTemplate = "http://www.yify-torrent.org/movie/{external-id}";
     }
     
     public String getSearchPageUrl(String identifier)
@@ -36,11 +38,9 @@ public class YifyTorrentsSeeker extends GenericWebsiteSeeker {
         return this.contentPageUrlTemplate.replace("{external-id}", "");
     }
     
-    public Content getContentFromUrl(String url)
+    public Content getContentFromHtml(String url, String html)
     {
-        Content content = new Content();
-        
-        // TODO: Complete
+        Film content = new Film();
         
         return content;
     }
