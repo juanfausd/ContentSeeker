@@ -10,6 +10,8 @@ import com.conventus.entity.Content;
 import com.conventus.helpers.HttpHelper;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -43,7 +45,7 @@ public abstract class GenericWebsiteSeeker {
             {
                 String html = HttpHelper.sendGet(this.getSearchPageUrl(i.toString()));
                 Document doc = Jsoup.parse(html);
-                Elements links = doc.select(String.format("a[href*={0}]", contentPageUrlPattern));
+                Elements links = doc.select(String.format("a[href*=%s]", contentPageUrlPattern));
                 
                 for (Element link : links)
                 {
@@ -54,11 +56,9 @@ public abstract class GenericWebsiteSeeker {
             }
             catch(Exception ex)
             {
-                throw ex;
+                Logger.getLogger(YtsSeeker.class.getName()).log(Level.SEVERE, null, String.format("Page %s: %s", i, ex.getMessage()));
             }
         }
-        
-        // TODO: Complete this logic
         
         return result;
     }

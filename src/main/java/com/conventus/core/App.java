@@ -1,6 +1,13 @@
 package com.conventus.core;
 
+import com.conventus.entity.Content;
+import com.conventus.entity.Film;
 import com.conventus.mongodb.dao.MongoDBContentDAO;
+import com.conventus.mongodb.dao.MongoDBFilmDAO;
+import com.conventus.webseeker.YtsSeeker;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Hello world!
@@ -10,14 +17,17 @@ public class App
 {
     public static void main( String[] args )
     {
-        Integer minPage = 1;
-        Integer maxPage = 239;
-        String searchPageUrlTemplate = "https://yts.re/browse-movie/0/All/All/0/latest/{page}";
-        String contentPageUrlTemplate = "https://yts.re/movie/{external-id}";
+        YtsSeeker seeker = new YtsSeeker();
         
-        List<String> externalIds = new List<String>();
-        
-        MongoDBContentDAO dao = new MongoDBContentDAO();
-        dao.readAll();
+        try
+        {
+            List<Content> content = seeker.searchContent();
+            MongoDBFilmDAO dao = new MongoDBFilmDAO();
+            dao.createAll(content);
+        }
+        catch(Exception ex)
+        {
+            Logger.getLogger(YtsSeeker.class.getName()).log(Level.SEVERE, null, ex.getMessage());
+        }
     }
 }

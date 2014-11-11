@@ -6,7 +6,6 @@
 
 package com.conventus.mongodb.dao;
 
-import com.conventus.entity.Content;
 import com.conventus.entity.IEntity;
 import com.conventus.mongodb.converter.IObjectConverter;
 import com.mongodb.BasicDBObjectBuilder;
@@ -21,30 +20,57 @@ import org.bson.types.ObjectId;
  *
  * @author JuanAlejandro
  */
-public class MongoDBGenericDAO<T> implements IMongoDBGenericDAO<T> {
-    
+public class MongoDBGenericDAO<T> implements IMongoDBGenericDAO<T> 
+{
     protected DBCollection col;
     protected IObjectConverter<T> converter;
     
-    public MongoDBGenericDAO(IObjectConverter<T> conv) {
+    public MongoDBGenericDAO(IObjectConverter<T> conv) 
+    {
         this.converter = conv;
     }
     
-    public T create(T obj) {
+    public T create(T obj) 
+    {
         DBObject doc = this.converter.toDBObject(obj);
         this.col.insert(doc);
         ObjectId id = (ObjectId) doc.get("_id");
         ((IEntity)obj).setId(id.toString());
-        return this.converter.toObject(doc);
+        return obj;
     }
     
-    public void update(T obj) {
+    public List<T> createAll(List<T> list)
+    {
+        List<DBObject> insertList = new ArrayList<DBObject>();
+        
+        for(T obj : list)
+        {
+            DBObject doc = this.converter.toDBObject(obj);
+            insertList.add(doc);
+        }
+        
+        this.col.insert(insertList);
+        
+        for(Integer i=0; i<list.size(); i++)
+        {
+            DBObject doc = insertList.get(i);
+            T obj = list.get(i);
+            ObjectId id = (ObjectId) doc.get("_id");
+            ((IEntity)obj).setId(id.toString());
+        }
+        
+        return list;
+    }
+    
+    public void update(T obj) 
+    {
         DBObject query = BasicDBObjectBuilder.start()
                 .append("_id", new ObjectId(((IEntity)obj).getId())).get();
         this.col.update(query, this.converter.toDBObject(obj));
     }
     
-    public List<T> readAll() {
+    public List<T> readAll() 
+    {
         List<T> data = new ArrayList<T>();
         DBCursor cursor = this.col.find();
         while (cursor.hasNext()) {
@@ -55,13 +81,15 @@ public class MongoDBGenericDAO<T> implements IMongoDBGenericDAO<T> {
         return data;
     }
  
-    public void delete(T obj) {
+    public void delete(T obj) 
+    {
         DBObject query = BasicDBObjectBuilder.start()
                 .append("_id", new ObjectId(((IEntity)obj).getId())).get();
         this.col.remove(query);
     }
  
-    public T read(T obj) {
+    public T read(T obj) 
+    {
         DBObject query = BasicDBObjectBuilder.start()
                 .append("_id", new ObjectId(((IEntity)obj).getId())).get();
         DBObject data = this.col.findOne(query);
