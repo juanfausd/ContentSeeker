@@ -21,7 +21,7 @@ import org.jsoup.select.Elements;
  *
  * @author JuanAlejandro
  */
-public abstract class GenericWebsiteSeeker {
+public abstract class GenericWebsiteSeeker<T> {
     
     protected Integer minPage;
     protected Integer maxPage;
@@ -32,11 +32,11 @@ public abstract class GenericWebsiteSeeker {
     public abstract String getSearchPageUrl(String identifier);
     public abstract String getContentPageUrl(String externalId);
     public abstract String getContentPageUrlPattern();
-    public abstract Content getContentFromHtml(String url, String html);
+    public abstract T getContentFromHtml(String url, String html);
     
-    public List<Content> searchContent() throws Exception
+    public List<T> searchContent() throws Exception
     {
-        List<Content> result = new ArrayList<Content>();
+        List<T> result = new ArrayList<T>();
         String contentPageUrlPattern = this.getContentPageUrlPattern();
         
         for(Integer i = this.minPage; i <= this.maxPage; i++)

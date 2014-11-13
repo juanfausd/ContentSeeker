@@ -21,7 +21,7 @@ public class App
         
         try
         {
-            List<Content> content = seeker.searchContent();
+            List<Film> content = seeker.searchContent();
             MongoDBFilmDAO dao = new MongoDBFilmDAO();
             dao.createAll(content);
         }

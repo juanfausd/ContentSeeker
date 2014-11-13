@@ -13,7 +13,7 @@ import com.conventus.entity.Film;
  *
  * @author JuanAlejandro
  */
-public class YifyTorrentsSeeker extends GenericWebsiteSeeker {
+public class YifyTorrentsSeeker extends GenericWebsiteSeeker<Film> {
     
     public YifyTorrentsSeeker() {
         this.minPage = 1;
@@ -38,7 +38,7 @@ public class YifyTorrentsSeeker extends GenericWebsiteSeeker {
         return this.contentPageUrlTemplate.replace("{external-id}", "");
     }
     
-    public Content getContentFromHtml(String url, String html)
+    public Film getContentFromHtml(String url, String html)
     {
         Film content = new Film();
         
