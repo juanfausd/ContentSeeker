@@ -6,9 +6,8 @@
 
 package com.conventus.mongodb.dao;
 
-import com.conventus.entity.Content;
 import com.conventus.entity.Film;
-import com.conventus.mongodb.converter.ContentConverter;
+import com.conventus.mongodb.converter.FilmConverter;
 import com.conventus.mongodb.infrastructure.MongoResource;
 
 /**
@@ -18,7 +17,7 @@ import com.conventus.mongodb.infrastructure.MongoResource;
 public class MongoDBFilmDAO extends MongoDBGenericDAO<Film> {
     
     public MongoDBFilmDAO() {
-        super(new ContentConverter());
+        super(new FilmConverter());
         MongoResource resource = MongoResource.INSTANCE;
         this.col = resource.getClient().getDB("contentseeker").getCollection("contentfilm");
     }
