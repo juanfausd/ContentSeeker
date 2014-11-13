@@ -20,7 +20,7 @@ import org.jsoup.nodes.Element;
  *
  * @author JuanAlejandro
  */
-public class YtsSeeker extends GenericWebsiteSeeker {
+public class YtsSeeker extends GenericWebsiteSeeker<Film> {
     
     public YtsSeeker() {
         this.minPage = 1;
@@ -45,7 +45,7 @@ public class YtsSeeker extends GenericWebsiteSeeker {
         return this.contentPageUrlTemplate.replace("{external-id}", "");
     }
     
-    public Content getContentFromHtml(String url, String html)
+    public Film getContentFromHtml(String url, String html)
     {
         Film content = new Film();
         
