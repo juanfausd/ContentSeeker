@@ -6,7 +6,6 @@
 
 package com.conventus.webseeker;
 
-import com.conventus.entity.Content;
 import com.conventus.entity.Film;
 import com.conventus.helpers.FileHelper;
 import java.io.IOException;
@@ -64,6 +63,8 @@ public class YtsSeeker extends GenericWebsiteSeeker<Film> {
         }
         content.setExternalId(url.replace(this.getContentPageUrlPattern(), ""));
         // Film class properties
+        // Title
+        content.setTitle(movieInfo.select("h1").first().text());
         // Genre
         String genre = movieInfo.select("b").select(":contains(Genre)").parents().first().text().replace("Genre:", "").trim();
         content.setGenre(genre);
@@ -91,6 +92,9 @@ public class YtsSeeker extends GenericWebsiteSeeker<Film> {
         // MPR
         String mpr = movieInfo.select("b").select(":contains(MPR:)").parents().first().text().replace("MPR:", "").trim();
         content.setMpr(mpr);
+        // Peers/Seeds
+        String peersSeeds = movieInfo.select("b").select(":contains(Seeds:)").parents().first().text().replace("Peers/Seeds:", "").trim();
+        content.setPeersSeeds(peersSeeds);
         
         return content;
     }

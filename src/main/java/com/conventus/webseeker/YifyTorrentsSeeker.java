@@ -6,7 +6,6 @@
 
 package com.conventus.webseeker;
 
-import com.conventus.entity.Content;
 import com.conventus.entity.Film;
 
 /**

@@ -6,7 +6,6 @@
 
 package com.conventus.webseeker;
 
-import com.conventus.entity.Content;
 import com.conventus.helpers.HttpHelper;
 import java.util.ArrayList;
 import java.util.List;
